@@ -12,29 +12,12 @@ jobs:
       contents: read
       packages: write
 
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_USER: build
-          POSTGRES_PASSWORD: build
-          POSTGRES_DB: build
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        with:
-          driver-opts: network=host
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -48,10 +31,6 @@ jobs:
         with:
           context: .
           push: true
-          network: host
-          build-args: |
-            DATABASE_URL=postgres://build:build@localhost:5432/build
-            PAYLOAD_SECRET=build-only-not-used-at-runtime
           tags: |
             ghcr.io/mariusgerome/payload-mariusgerome:latest
             ghcr.io/mariusgerome/payload-mariusgerome:${{ github.sha }}

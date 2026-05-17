@@ -25,14 +25,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build-time env: Payload init connects to a DB during `next build` (generateStaticParams
-# in /posts/[slug] and /[slug] calls payload.find). CI provides a throwaway Postgres
-# via these build-args; runtime values come from Dokploy.
-ARG DATABASE_URL
-ARG PAYLOAD_SECRET
-ENV DATABASE_URL=$DATABASE_URL
-ENV PAYLOAD_SECRET=$PAYLOAD_SECRET
-
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
