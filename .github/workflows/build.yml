@@ -36,3 +36,8 @@ jobs:
             ghcr.io/mariusgerome/payload-mariusgerome:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Trigger Dokploy redeploy
+        run: curl -fsSL -X POST "$DOKPLOY_WEBHOOK_URL"
+        env:
+          DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK_URL }}
