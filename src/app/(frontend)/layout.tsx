@@ -51,3 +51,8 @@ export const metadata: Metadata = {
     creator: '@payloadcms',
   },
 }
+
+// Force all frontend routes to render at request time, not at build.
+// Pre-rendering needs a populated DB and PAYLOAD_SECRET; we avoid that
+// requirement by rendering on demand. Re-evaluate once a build-time DB story exists.
+export const dynamic = 'force-dynamic'
